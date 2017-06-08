@@ -285,7 +285,7 @@ class Controller {
 					// Si plus de résultats peuvent être téléchargés.
 					controller.viewSearchCcam.resultsMoreExists(true);
 					controller.viewSearchCcam.resultsElementsUrlStartSet(urlStart);
-					controller.viewSearchCcam.resultsElementsUrlPageNextSet(urlStart + linksNext);
+					controller.viewSearchCcam.resultsElementsUrlPageNextSet(linksNext);
 				} else {
 					controller.viewSearchCcam.resultsMoreExists(false);
 				}
