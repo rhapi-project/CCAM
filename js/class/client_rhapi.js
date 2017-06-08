@@ -34,7 +34,6 @@ class ClientRhapi {
 		$.ajax({
 			url: url,
 			method: "GET",
-			data: {id : ""},
 			dataType: "json",
 			crossDomain: true,
 			success: function (dataRequest) {
