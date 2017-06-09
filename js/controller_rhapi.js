@@ -137,7 +137,7 @@ class Controller {
 				urlStart = viewSearchCcam.resultsElementsUrlStartGet();
 				var urlMoreElement = viewSearchCcam.resultsElementsUrlPageNextGet();
 				var htmlResultsReset = false;
-				clientRhapi.serverDataGet(controller, urlStart, urlMoreElement, htmlResultsReset, controller.searchResults)
+				clientRhapi.serverDataGet(controller, urlStart, urlMoreElement, htmlResultsReset, controller.searchResults);
 			}
 		});
 		
