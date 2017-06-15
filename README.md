@@ -17,7 +17,9 @@ Comme la plupart des API RESTful, RHAPI est explorable directement depuis un nav
 
 Pour retrouver les mots clefs et les codes des actes associés à un terme médical comme *trijumeau*, on peut ainsi faire une simple requête `GET` sur le serveur de démonstration RHAPI qui retournera la réponse sous forme d'un objet *JSON*.
   - [https://demo.rhapi.net/demo01/CCAM?texte=trijumeau](https://demo.rhapi.net/demo01/CCAM?texte=trijumeau)
-  - avec curl :
+  - avec curl : 
+
+      curl https://demo.rhapi.net/demo01/CCAM?texte=trijumeau
   
 [La documentation complète RHAPI](https://demo.rhapi.net/apidoc01/)
 
