@@ -34,6 +34,9 @@ Pour obtenir le tarif d'un acte médical il faut faire la requête avec le code 
 - avec curl :
 
 `curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
-
+  
+  
+  
 [La documentation complète RHAPI](https://demo.rhapi.net/apidoc01/)
 
+[Le site RHAPI.fr](http://rhapi.fr/)
