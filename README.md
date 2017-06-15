@@ -19,14 +19,21 @@ Pour retrouver les mots clefs et les codes des actes associés à un terme médi
   - [https://demo.rhapi.net/demo01/CCAM?texte=trijumeau](https://demo.rhapi.net/demo01/CCAM?texte=trijumeau)
   - avec curl : 
 
-    curl https://demo.rhapi.net/demo01/CCAM?texte=trijumeau
+`curl https://demo.rhapi.net/demo01/CCAM?texte=trijumeau`
+
+Pour obtenir les données d'un acte en particulier il faut faire la requête avec le code de l'acte à l'intérieur
+
+  - [https://demo.rhapi.net/demo01/CCAM/ADLB001](https://demo.rhapi.net/demo01/CCAM/ADLB001)
+  - avec curl : 
+
+`curl https://demo.rhapi.net/demo01/CCAM/ADLB001`
 
 Pour obtenir le tarif d'un acte médical il faut faire la requête avec le code de l'acte à l'intérieur et terminée par "tarif".
 
 - [https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif](https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif)
 - avec curl :
 
-    curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif
+`curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
 
 [La documentation complète RHAPI](https://demo.rhapi.net/apidoc01/)
 
