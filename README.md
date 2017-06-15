@@ -2,9 +2,9 @@
 Recherche dans la Classification Commune des Actes Médicaux
 
 ## Présentation rapide
-**RHAPI** est une API RESTful qui s'inscrit totalement dans l'émergence actuelle des applications full Front-End.
+**RHAPI** est une API RESTful qui s'inscrit totalement dans l'émergence actuelle d'applications Web *full Front-End*, écrites uniquement en JavaScript.
 
-**RHAPI** fournit l'ensemble de l'architecture Back-End ainsi que les logiques *Métiers*, pour des applications à destination des professionels de santé dont il ne restera qu'à écrire l'interface utilisateur.
+**RHAPI** fournit l'ensemble de l'architecture *Back-End* ainsi que les logiques *Métiers*, pour des applications à destination des professionels de santé dont il ne restera qu'à développer l'interface utilisateur.
 
 [Zumatec](http://www.zumatec.com) propose ici un exemple utilisant les fonctionnalités CCAM de RHAPI.
 
