@@ -4,7 +4,7 @@ Recherche dans la Classification Commune des Actes Médicaux
 ## Pour tester
 Ouvrir l'archive et cliquer sur index.html.
 
-En ligne : [CCAM](https://download.oremia.com/CCAM?texte=avulsion)
+Directement en ligne : [CCAM en ligne](https://download.oremia.com/CCAM?texte=avulsion)
 
 ## Présentation rapide
 **RHAPI** est une API RESTful qui s'inscrit totalement dans l'émergence actuelle d'applications Web *full Front-End*, écrites uniquement en JavaScript.
