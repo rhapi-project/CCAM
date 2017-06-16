@@ -28,5 +28,5 @@ Pour obtenir le tarif d'un acte à partir de son code CCAM.
 - [https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif](https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif)
 - `curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
     
-Pour de plus ample informations vous pouvez consulter [la documentation complète RHAPI](https://demo.rhapi.net/apidoc01/).
+Pour de plus amples informations vous pouvez consulter [la documentation complète RHAPI](https://demo.rhapi.net/apidoc01/).
 
