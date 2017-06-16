@@ -10,7 +10,9 @@ Recherche dans la Classification Commune des Actes Médicaux
 
 **RHAPI** fournit l'ensemble de l'architecture *Back-End* ainsi que les logiques *Métiers*, pour des applications à destination des professionels de santé dont il ne restera qu'à développer l'interface utilisateur.
 
-[Zumatec](http://www.zumatec.com) propose ici un exemple utilisant les fonctionnalités CCAM de RHAPI.
+[Zumatec](http://www.zumatec.com) propose ici un exemple de client JavaScript utilisant les fonctionnalités CCAM de RHAPI.
+
+TODO : documenter très rapidement du code (5 lignes maximum)
 
 ## Module CCAM RHAPI
 Comme la plupart des API RESTful, RHAPI est explorable directement depuis un navigateur ou une application telle que `curl`.
