@@ -12,7 +12,7 @@ Recherche dans la Classification Commune des Actes Médicaux
 
 [Zumatec](http://www.zumatec.com) propose ici un exemple de client JavaScript utilisant les fonctionnalités CCAM de RHAPI.
 
-TODO : documenter très rapidement l'organisation du code (5 lignes maximum)
+Les requêtes HTTP se font dans client_rhapi.js via la méthode ajax() de jQuery. La méthode fetch() pourrait aussi être utilsée à la place de ajax(). Le résultat est ensuite traité dans controller_rhapi.js via des méthodes callback.
 
 ## Module CCAM RHAPI
 Comme la plupart des API RESTful, RHAPI est explorable directement depuis un navigateur ou une application telle que `curl`.
