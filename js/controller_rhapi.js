@@ -22,7 +22,7 @@ class Controller {
 		controller.control();
 	}
 	
-	// Une fois l'objet "contextes" récupéré, appel de la méthode de contrôle qui contient les principaux événements de l'application.
+	// Méthode de contrôle comportant les principaux événements de l'application.
 	control () {
 		var undefined = 2;
 		var controller = this.controller;
@@ -70,7 +70,7 @@ class Controller {
 			dateFormat: 'dd/mm/yy'
 		});
 		
-		// Quand une touche du clavier est tapée dans le champ de recherche
+		// Saisie dans le champ de recherche
 		$("#input-search").keydown(function(keyPressed) {
 			// setTimeout qui sert à attendre que le caractère qui vient d'être tapé au clavier soit bien pris en compte
 			setTimeout(function () {
@@ -100,7 +100,7 @@ class Controller {
 			}, 50);
 		});
 		
-		// [1/3] Autocomplétion lors de la frappe dans le champ de recherche d'un acte.
+		// [1/3] Autocomplétion champ de recherche d'un acte.
 		$("#input-search").autocomplete({
 			source: function (request, reply){
 				if (viewSearchCcam.inputSearchKeywordLengthGet() >= 3) {
@@ -113,7 +113,7 @@ class Controller {
 			}
 		});
 		
-		// Clique d'un élément du menu des suggestions proposées par l'autocomplétion.
+		// Clic menu autocomplétion.
 		$(".ui-autocomplete").click(function () {
 			inputVal = viewSearchCcam.inputSearchKeywordGet();
 			viewSearchCcam.searchNextSet(viewSearchCcam.inputSearchKeywordGet());
@@ -129,7 +129,7 @@ class Controller {
 			$("#input-search").focus();
 		});
 		
-		// Bouton qui affiche plus de résultats.
+		// Plus de résultats
 		$("#result-button-more").click(function() {
 			if (viewSearchCcam.resultsButtonMoreActiveGet() == false) {
 				viewSearchCcam.resultsButtonMoreActiveSet(true);
@@ -141,13 +141,13 @@ class Controller {
 			}
 		});
 		
-		// Remise à zero du champ de recherche quand l'application se relance (bouton rafraîchir la page du navigateur web).
+		// Ràz champ de recherche
 		viewSearchCcam.inputSearchKeywordReset();
 		
 		// =====
-		// Valeur paramètres "GET" entrés depuis l'url.
+		// Valeur paramètres "GET" depuis l'url.
 		// Si "texte", sa valeur est copiée dans le champ de recherche et une recherche est lancée.
-		// Commentez ce code pour ne pas mettre en place cette fonctionnalité.
+		// Commentez ce code pour ne pas mettre en place cette fonctionnalité. Amélioration du SEO
 		// =====
 		// Récupération d'un mot-clé depuis l'uri
 		var $_GET = browserUri.paramsGet();
@@ -186,7 +186,7 @@ class Controller {
 		});
 	}
 	
-	// [2/3] Autocomplétion lors de la frappe dans le champ de recherche d'un acte.
+	// [2/3] Autocomplétion
 	autocomplete (controller) {
 		var reply = controller.viewSearchCcam.inputSearchAutocompleteReplyGet();
 		controller.clientRhapi.serverDataKeywordsGet2(function (datas) {
@@ -194,7 +194,7 @@ class Controller {
 		});
 	}
 	
-	// [3/3] Autocomplétion lors de la frappe dans le champ de recherche d'un acte.
+	// [3/3] Autocomplétion
 	autocomplete2 (controller, reply, datas) {
 		if (controller.viewSearchCcam.inputSearchKeywordLengthGet() >= 3) {
 			reply($.map(datas.slice(0, 4), function(object){
@@ -253,7 +253,7 @@ class Controller {
 			controller.viewSearchCcam.resultsButtonMoreActiveSet(false);
 			controller.viewSearchCcam.searchKeywordsReset();
 			if (controller.viewSearchCcam.inputSearchKeywordLengthGet() >= 3) {
-				// La page de recherche a fini de charger.
+				// La page de recherche est chargée
 				controller.viewSearchCcam.resultsContentLoaded(htmlResultsReset);
 				controller.viewSearchCcam.resultsMoreLoaded();
 				controller.viewSearchCcam.resumeOn(null);
@@ -277,7 +277,7 @@ class Controller {
 				// la var "f" représente le numéro de la ligne du tableau des résultats de recherche. Quand le tableau est fini d'être créé, on stocke le numéro + 1 de la dernière ligne dans une var car quand une nouvelle recherche a lieue "f" ne reprend pas de zero.
 				controller.viewSearchCcam.resultsElementsIndexSet(f);
 				
-				// Le tableau des résultats de recherche a fini d'être créé.
+				// Le tableau des résultats de recherche est créé
 				controller.viewSearchCcam.tableCreated();
 				
 				linksNext = informations.links.next;
