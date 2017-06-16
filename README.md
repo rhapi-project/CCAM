@@ -12,7 +12,7 @@ Recherche dans la Classification Commune des Actes Médicaux
 
 [Zumatec](http://www.zumatec.com) propose ici un exemple de client JavaScript utilisant les fonctionnalités CCAM de RHAPI.
 
-Les requêtes HTTP se font dans client_rhapi.js via la méthode ajax() de jQuery. La méthode fetch() pourrait aussi être utilsée à la place de ajax(). Le résultat est ensuite traité dans controller_rhapi.js via des méthodes callback.
+Les requêtes se font depuis *client_rhapi.js* via la méthode *ajax* de *jQuery* (*fetch* pourrait également être utilisé). Le résultat (un objet JSON) est ensuite traité par *controller_rhapi.js* via des méthodes en callback.
 
 ## Module CCAM RHAPI
 Comme la plupart des API RESTful, RHAPI est explorable directement depuis un navigateur ou une application telle que `curl`.
@@ -31,5 +31,5 @@ Pour obtenir le tarif d'un acte à partir de son code CCAM.
 - [https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif](https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif)
 - `curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
     
-Pour de plus amples informations vous pouvez consulter [la documentation complète RHAPI](https://demo.rhapi.net/apidoc01/).
+Pour de plus amples informations se référer à [la documentation complète RHAPI](https://demo.rhapi.net/apidoc01/).
 
