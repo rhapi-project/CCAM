@@ -2,9 +2,8 @@
 Recherche dans la Classification Commune des Actes Médicaux
 
 ## Pour tester
-Ouvrir l'archive et cliquer sur index.html.
-
-Directement en ligne : [CCAM en ligne](https://download.oremia.com/CCAM?texte=avulsion)
+- Télécharger l'archive, l'ouvrir et cliquer sur index.html.
+- Aller sur le site [CCAM en ligne](https://download.oremia.com/CCAM?texte=trijumeau).
 
 ## Présentation rapide
 **RHAPI** est une API RESTful qui s'inscrit totalement dans l'émergence actuelle d'applications Web *full Front-End*, écrites uniquement en JavaScript.
@@ -17,26 +16,17 @@ Comme la plupart des API RESTful, RHAPI est explorable directement depuis un nav
 
 Pour retrouver les mots clefs et les codes des actes associés à un terme médical comme *trijumeau*, on peut ainsi faire une simple requête `GET` sur le serveur de démonstration RHAPI qui retournera la réponse sous forme d'un objet *JSON*.
   - [https://demo.rhapi.net/demo01/CCAM?texte=trijumeau](https://demo.rhapi.net/demo01/CCAM?texte=trijumeau)
-  - avec curl : 
+  - `curl https://demo.rhapi.net/demo01/CCAM?texte=trijumeau`
 
-`curl https://demo.rhapi.net/demo01/CCAM?texte=trijumeau`
-
-Pour obtenir les données d'un acte en particulier il faut faire la requête avec le code de l'acte à l'intérieur
+Pour obtenir les données complètes d'un acte à partir de son code CCAM.
 
   - [https://demo.rhapi.net/demo01/CCAM/ADLB001](https://demo.rhapi.net/demo01/CCAM/ADLB001)
-  - avec curl : 
+  - `curl https://demo.rhapi.net/demo01/CCAM/ADLB001`
 
-`curl https://demo.rhapi.net/demo01/CCAM/ADLB001`
-
-Pour obtenir le tarif d'un acte médical il faut faire la requête avec le code de l'acte à l'intérieur et la terminer par le paramètre "tarif".
+Pour obtenir le tarif d'un acte à partir de son code CCAM.
 
 - [https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif](https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif)
-- avec curl :
+- `curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
+    
+Pour de plus ample informations vous pouvez consulter [la documentation complète RHAPI](https://demo.rhapi.net/apidoc01/).
 
-`curl https://demo.rhapi.net/demo01/CCAM/ADLB001/tarif`
-  
-  
-  
-[La documentation complète RHAPI](https://demo.rhapi.net/apidoc01/)
-
-[Le site RHAPI.fr](http://rhapi.fr/)
