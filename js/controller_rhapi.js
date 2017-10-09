@@ -11,7 +11,7 @@ class Controller {
     
     // [1/2] Récupération de l'objet "contextes".
     controlContext () {
-        var serverUrls = this.clientRhapi.serverDataUrlPrepare(null, null, null, null);
+        var serverUrls = this.clientRhapi.serverDataUrlPrepare(null, null, null, null, null, null);
         this.clientRhapi.serverDataGet(this.controller, serverUrls["urlStart"], serverUrls["urlContext"], false, this.controller.contextResults);
     }
     
@@ -92,7 +92,7 @@ class Controller {
                 viewSearchCcam.searchNextSet(viewSearchCcam.inputSearchKeywordGet());
                 
                 inputVal = viewSearchCcam.inputSearchKeywordGet();
-                var dataUrl = clientRhapi.serverDataUrlPrepare(inputVal, null, null, null, null);
+                var dataUrl = clientRhapi.serverDataUrlPrepare(inputVal, null, null, null, null, null, null);
                 inputVal = dataUrl["inputVal"];
                 inputValLength = dataUrl["inputValLength"];
                 urlStart = dataUrl["urlStart"];
@@ -171,6 +171,12 @@ class Controller {
         $("#medical-act-conventions-ps").change(function() {
             controller.viewMedicalActUpdate(controller);
         });
+        $("#medical-act-activite").change(function() {
+            controller.viewMedicalActUpdate(controller);
+        });
+        $("#medical-act-phase").change(function() {
+            controller.viewMedicalActUpdate(controller);
+        });
         $("#medical-act-dom").change(function() {
             controller.viewMedicalActUpdate(controller);
         });
@@ -225,7 +231,7 @@ class Controller {
         controller.viewSearchCcam.inputSearchReady(true);
         var inputVal = controller.viewSearchCcam.inputSearchKeywordGet();
         var htmlResultsReset = true;
-        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, null, null, null, null);
+        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, null, null, null, null, null, null);
         controller.clientRhapi.serverDataGet(controller, dataUrl["urlStart"], dataUrl["urlKeyword"], htmlResultsReset, controller.searchResults);
     }
     
@@ -297,39 +303,45 @@ class Controller {
     
     // Ouverture d'un acte médical (fiche avec les tarifs).
     viewMedicalActF(controller, medicalActCode, resultAnchor) {
+        console.log("== viewMedicalActF ==");
         controller.viewSearchCcam.pauseOn();
         controller.viewMedicalAct.backResultAnchorSet(resultAnchor);
         controller.viewMedicalAct.resultsContentLoading(medicalActCode);
         controller.viewMedicalAct.selectionReset();
         controller.viewMedicalAct.priceLoading();
-        controller.viewMedicalAct.codeSet(medicalActCode);
         var searchDateConverted = controller.viewMedicalAct.inputSearchDateConvert(controller.viewSearchCcam.inputSearchDateGet());
         if (controller.clientRhapi.CONVENTION_PS_SECTORS_DATE_Get() < searchDateConverted) {
             var gridCodeDefault = 1;
         } else {
             var gridCodeDefault = 0;
         }
+        controller.viewMedicalAct.codeSet(medicalActCode);
         controller.viewMedicalAct.gridCodeSet(gridCodeDefault);
+        controller.viewMedicalAct.activiteCodeSet("");
+        controller.viewMedicalAct.phaseCodeSet("");
         controller.viewMedicalAct.domCodeSet(0);
-        var medicalActGridCode = null;
-        var medicalActDomCode = null;
-        controller.viewMedicalActUpdate2(controller, medicalActCode, medicalActGridCode, medicalActDomCode);
+        controller.viewMedicalActUpdate2(controller, medicalActCode, null, null, null, null, null);
+        console.log("== End of viewMedicalActF ==");
     }
     
     // [1/4] Mise à jour des données (notes, tarif...) d'un acte médical.
     viewMedicalActUpdate(controller) {
         var selectionResults = controller.viewMedicalAct.selectionGet();
         controller.viewMedicalAct.gridCodeSet(selectionResults["medicalActGridCode"]);
+        console.log("selectionResults[\"medicalActActiviteCode\"] : " + selectionResults["medicalActActiviteCode"]);
+        console.log("selectionResults[\"medicalActPhaseCode\"] : " + selectionResults["medicalActPhaseCode"]);
+        controller.viewMedicalAct.activiteCodeSet(selectionResults["medicalActActiviteCode"]);
+        controller.viewMedicalAct.phaseCodeSet(selectionResults["medicalActPhaseCode"]);
         controller.viewMedicalAct.domCodeSet(selectionResults["medicalActDomCode"]);
         controller.viewMedicalAct.modificatorsCodesSet(selectionResults["medicalActModificatorsCodes"]);
-        controller.viewMedicalActUpdate2(controller, controller.viewMedicalAct.codeGet(), selectionResults["medicalActGridCode"], selectionResults["medicalActDomCode"], selectionResults["medicalActModificatorsCodes"]);
+        controller.viewMedicalActUpdate2(controller, controller.viewMedicalAct.codeGet(), selectionResults["medicalActActiviteCode"], selectionResults["medicalActPhaseCode"], selectionResults["medicalActGridCode"], selectionResults["medicalActDomCode"], selectionResults["medicalActModificatorsCodes"]);
     }
     
     // [2/4] Mise à jour des données (notes, tarif...) d'un acte médical.
-    viewMedicalActUpdate2(controller, medicalActCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes) {
+    viewMedicalActUpdate2(controller, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes) {
         controller.viewMedicalAct.priceLoading();
         var inputVal = controller.viewSearchCcam.inputSearchKeywordGet();
-        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, medicalActCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes);
+        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes);
         var urlStart = dataUrl["urlStart"];
         var urlMedicalAct = dataUrl["urlMedicalAct"];
         
@@ -344,6 +356,8 @@ class Controller {
         controller.viewMedicalAct.resumeOn();
         var medicalActCode = controller.viewMedicalAct.codeGet();
         var medicalActGridCode = controller.viewMedicalAct.gridCodeGet();
+        var medicalActActiviteCode = controller.viewMedicalAct.activiteCodeGet();
+        var medicalActPhaseCode = controller.viewMedicalAct.phaseCodeGet();
         var medicalActDomCode = controller.viewMedicalAct.domCodeGet();
         var medicalActModificatorsCodes = controller.viewMedicalAct.modificatorsCodesGet();
         
@@ -364,6 +378,35 @@ class Controller {
             controller.viewMedicalAct.conventionPsCreate(medicalActGridCode, controller.clientRhapi.CONVENTION_PS_SECTORS_DATE_Get(), datas, object, dateSelected, f);
             f++;
         });
+        
+        controller.viewMedicalAct.activiteReset();
+        console.log("controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get() : " + controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get());
+        controller.viewMedicalAct.activiteCreate(datas, medicalActActiviteCode, 0, controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get(), 0);
+        f = 1;
+        serverDataContext.activite.forEach(function(object){
+            controller.viewMedicalAct.activiteCreate(datas, medicalActActiviteCode, object.codActiv, object.libelle, f);
+            f++;
+        });
+        
+        controller.viewMedicalAct.phaseReset();
+        //controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, 0, controller.viewMedicalAct.PHASE_LABEL_DEFAULT_Get(), 0);
+        //controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, 0, null, 0);
+        
+        // Création du libellé par défaut grâce au booléen
+        f = 1;
+        var labelFirst = true;
+        serverDataContext.phase.forEach(function(object){
+            controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, object.codPhase, object.libelle, f, labelFirst);
+            f++;
+        });
+        // Ensuite création du reste de la liste déroulante.
+        f = 1;
+        labelFirst = false;
+        serverDataContext.phase.forEach(function(object){
+            controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, object.codPhase, object.libelle, f, labelFirst);
+            f++;
+        });
+        
         controller.viewMedicalAct.domReset();
         controller.viewMedicalAct.domCreate(medicalActDomCode, 0, controller.viewMedicalAct.DOM_LABEL_DEFAULT_Get(), 0);
         f = 1;
@@ -371,6 +414,7 @@ class Controller {
             controller.viewMedicalAct.domCreate(medicalActDomCode, object.codDom, object.libelle, f);
             f++;
         });
+        
         controller.viewMedicalAct.modificatorReset();
         f = controller.viewMedicalAct.modificatorsCodesIndexGet();
         serverDataContext.tb11.forEach(function(modificator){
@@ -381,7 +425,9 @@ class Controller {
         controller.viewMedicalAct.modificatorsCodesIndexSet(f);
         var inputVal = controller.viewSearchCcam.inputSearchKeywordGet();
         var htmlResultsReset = true;
-        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, medicalActCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes);
+        console.log("medicalActActiviteCode : " + medicalActActiviteCode);
+        console.log("medicalActPhaseCode : " + medicalActPhaseCode);
+        var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes);
         controller.clientRhapi.serverDataGet(controller, dataUrl["urlStart"], dataUrl["urlPrice"], htmlResultsReset, controller.viewMedicalActUpdatePrice);
     }
     

@@ -44,18 +44,33 @@ class ClientRhapi {
     }
     
     // Méthode qui créé les liens externes de l'application.
-    serverDataUrlPrepare(inputVal, medicalActCode, medicalActGridCode, medicalActDomCode, medicalActModificatorCode) {
+    serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorCode) {
+        console.log("== serverDataUrlPrepare ==");
+        console.log("medicalActCode : " + medicalActCode);
+        console.log("medicalActActiviteCode : " + medicalActActiviteCode);
+        console.log("medicalActPhaseCode : " + medicalActPhaseCode);
+        medicalActActiviteCode = (medicalActActiviteCode != null)?medicalActActiviteCode:"";
+        medicalActPhaseCode = (medicalActPhaseCode != null)?medicalActPhaseCode:"";
         var urlStart = "https://demo.rhapi.net/demo01";
         var urlKeyword = urlStart + "/CCAM/?texte=" + inputVal;
         var urlMedicalAct = urlStart + "/CCAM/" + medicalActCode;
+        //var urlMedicalActActivitePhaseCodes = ;
+        //var urlMedicalAct = urlMedicalActStart;
+        
+        //if (medicalActActiviteCode != null && medicalActPhaseCode != null) {
+        //    urlMedicalAct += "?;
+        //}
+        
         var urlContext = urlStart + "/CCAM/contextes";
-        var urlPrice = urlMedicalAct + "/tarif?grille=" + medicalActGridCode + "&dom=" + medicalActDomCode + "&modificateurs=" + medicalActModificatorCode;
+        var urlPrice = urlMedicalAct + "/tarif?grille=" + medicalActGridCode + "&activite=" + medicalActActiviteCode + "&phase=" + medicalActPhaseCode + "&dom=" + medicalActDomCode + "&modificateurs=" + medicalActModificatorCode;
         
         if (inputVal != null) {
             var inputValLength = inputVal.length;
         } else {
             var inputValLength = 0;
         }
+        console.log("urlMedicalAct : " + urlMedicalAct);
+        console.log("urlPrice : " + urlPrice);
         var result = [];
         result["inputVal"] = inputVal;
         result["inputValLength"] = inputValLength;
@@ -64,6 +79,7 @@ class ClientRhapi {
         result["urlMedicalAct"] = urlMedicalAct;
         result["urlContext"] = urlContext;
         result["urlPrice"] = urlPrice;
+        console.log("== End of serverDataUrlPrepare ==");
         return result;
     }
 }

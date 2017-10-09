@@ -5,6 +5,8 @@ class MedicalAct {
         this.nameShort = null;
         this.nameLong = null;
         this.notes = null;
+        this.codeActiviteDefault = null;
+        this.codePhaseDefault = null;
     }
     
     dateModifGet () {
@@ -27,6 +29,14 @@ class MedicalAct {
         return this.notes;
     }
     
+    codeActiviteDefaultGet () {
+        return this.codeActiviteDefault;
+    }
+    
+    codePhaseDefaultGet () {
+        return this.codePhaseDefault;
+    }
+    
     dateModifSet (valNew) {
         this.dateModif = valNew;
     }
@@ -45,5 +55,13 @@ class MedicalAct {
     
     notesSet (valNew) {
         this.notes = valNew;
+    }
+    
+    codeActiviteDefaultSet (valNew) {
+        this.codeActiviteDefault = valNew;
+    }
+    
+    codePhaseDefaultSet (valNew) {
+        this.codePhaseDefault = valNew;
     }
 }

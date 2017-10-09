@@ -3,7 +3,11 @@ class ViewMedicalAct{
         this.backResultAnchor = null;
         this.code = null;
         this.gridCode = null;
+        this.activiteCode = null;
+        this.phaseCode = null;
         this.domCode = null;
+        this.ACTIVITE_LABEL_DEFAULT = "Activité par défaut";
+        this.PHASE_LABEL_DEFAULT = "Phase";
         this.DOM_LABEL_DEFAULT = "MÉTROPOLE";
         this.modificatorsCodes = new Array();
         this.modificatorsCodesIndex = 0;
@@ -21,8 +25,24 @@ class ViewMedicalAct{
         return this.gridCode;
     }
     
+    activiteCodeGet () {
+        return this.activiteCode;
+    }
+    
+    phaseCodeGet () {
+        return this.phaseCode;
+    }
+    
     domCodeGet () {
         return this.domCode;
+    }
+    
+    ACTIVITE_LABEL_DEFAULT_Get () {
+        return this.ACTIVITE_LABEL_DEFAULT;
+    }
+    
+    PHASE_LABEL_DEFAULT_Get () {
+        return this.PHASE_LABEL_DEFAULT;
     }
     
     DOM_LABEL_DEFAULT_Get () {
@@ -47,6 +67,14 @@ class ViewMedicalAct{
     
     gridCodeSet (valNew) {
         this.gridCode = valNew;
+    }
+    
+    activiteCodeSet (valNew) {
+        this.activiteCode = valNew;
+    }
+    
+    phaseCodeSet (valNew) {
+        this.phaseCode = valNew;
     }
     
     domCodeSet (valNew) {
@@ -84,6 +112,60 @@ class ViewMedicalAct{
         if (medicalActGridCode == object.codGrille) {
             $("#medical-act-conventions-ps").val(object.codGrille);
             $("#medical-act-conventions-ps-notes").text(object.definition);
+        }
+    }
+    
+    activiteReset () {
+        $("#medical-act-activite").html("");
+    }
+    
+    // Création des options du champ de sélection de l'activité.
+    activiteCreate (datas, medicalActiviteCode, codeActivite, libelle, f) {
+        var codeFound = false;
+        datas.codActivites.forEach(function (object) {
+            if (object == codeActivite) {
+                codeFound = true;
+            }
+        });
+        if (codeActivite == 0) {
+            codeFound = true;
+        }
+        if (codeFound == true) {
+            var option = document.createElement("option");
+            option.setAttribute("id", "option-activite-" + f);
+            option.setAttribute("value", codeActivite);
+            $("#medical-act-activite").append(option);
+            $("#option-activite-" + f).append(document.createTextNode(libelle));
+            if (medicalActiviteCode == codeActivite) {
+                $("#medical-act-activite").val(codeActivite);
+            }
+        }
+    }
+    
+    phaseReset () {
+        $("#medical-act-phase").html("");
+    }
+    
+    // Création des options du champ de sélection de l'activité.
+    phaseCreate (datas, medicalPhaseCode, codePhase, libelle, f, labelFirst) {
+        var codeFound = false;
+        datas.codPhases.forEach(function (object) {
+            if (object == codePhase) {
+                codeFound = true;
+            }
+        });
+        if (codePhase == 0 && labelFirst == false) {
+            codeFound = false;
+        }
+        if (codeFound == true) {
+            var option = document.createElement("option");
+            option.setAttribute("id", "option-phase-" + f);
+            option.setAttribute("value", codePhase);
+            $("#medical-act-phase").append(option);
+            $("#option-phase-" + f).append(document.createTextNode(libelle));
+            if (medicalPhaseCode == codePhase) {
+                $("#medical-act-phase").val(codePhase);
+            }
         }
     }
     
@@ -206,6 +288,10 @@ class ViewMedicalAct{
     priceLoading () {
         $("#medical-act-conventions-ps").prop("disabled", true);
         $("#medical-act-conventions-ps").attr("class", "select-input select-input-loading");
+        $("#medical-act-activite").prop("disabled", true);
+        $("#medical-act-activite").attr("class", "select-input select-input-loading");
+        $("#medical-act-phase").prop("disabled", true);
+        $("#medical-act-phase").attr("class", "select-input select-input-loading");
         $("#medical-act-dom").prop("disabled", true);
         $("#medical-act-dom").attr("class", "select-input select-input-loading");
         $("#medical-act-modificators-select").prop("disabled", true);
@@ -222,6 +308,10 @@ class ViewMedicalAct{
     priceLoaded () {
         $("#medical-act-conventions-ps").prop("disabled", false);
         $("#medical-act-conventions-ps").attr("class", "select-input");
+        $("#medical-act-activite").prop("disabled", false);
+        $("#medical-act-activite").attr("class", "select-input");
+        $("#medical-act-phase").prop("disabled", false);
+        $("#medical-act-phase").attr("class", "select-input");
         $("#medical-act-dom").prop("disabled", false);
         $("#medical-act-dom").attr("class", "select-input");
         $("#medical-act-modificators-select").prop("disabled", false);
@@ -276,6 +366,8 @@ class ViewMedicalAct{
         var results = [];
         var viewMedicalAct = this;
         results["medicalActGridCode"] = $("#medical-act-conventions-ps").val();
+        results["medicalActActiviteCode"] = $("#medical-act-activite").val();
+        results["medicalActPhaseCode"] = $("#medical-act-phase").val();
         results["medicalActDomCode"] = $("#medical-act-dom").val();
         var modificatorsCodes = "";
         var f = 0, f2;
