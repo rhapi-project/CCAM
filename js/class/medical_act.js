@@ -6,7 +6,10 @@ class MedicalAct {
         this.nameLong = null;
         this.notes = null;
         this.codeActiviteDefault = null;
+        this.codesActivite = new Array();
         this.codePhaseDefault = null;
+        this.codesPhase = new Array();
+        this.price = null;
     }
     
     dateModifGet () {
@@ -33,8 +36,20 @@ class MedicalAct {
         return this.codeActiviteDefault;
     }
     
+    codesActiviteGet () {
+        return this.codesActivite;
+    }
+    
     codePhaseDefaultGet () {
         return this.codePhaseDefault;
+    }
+    
+    codesPhaseGet () {
+        return this.codesPhase;
+    }
+    
+    priceGet () {
+        return this.price;
     }
     
     dateModifSet (valNew) {
@@ -61,7 +76,29 @@ class MedicalAct {
         this.codeActiviteDefault = valNew;
     }
     
+    codesActiviteSet (valNew) {
+        this.codesActivite = valNew;
+    }
+    
     codePhaseDefaultSet (valNew) {
         this.codePhaseDefault = valNew;
+    }
+    
+    codesPhaseSet (valNew) {
+        this.codesPhase = valNew;
+    }
+    
+    priceSet (valNew) {
+        this.price = valNew;
+    }
+    
+    // -----
+    
+    codesActiviteAdd (code) {
+        this.codesActivite.push(code);
+    }
+    
+    codesPhaseAdd (code) {
+        this.codesPhase.push(code);
     }
 }

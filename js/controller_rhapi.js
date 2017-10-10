@@ -303,7 +303,6 @@ class Controller {
     
     // Ouverture d'un acte médical (fiche avec les tarifs).
     viewMedicalActF(controller, medicalActCode, resultAnchor) {
-        console.log("== viewMedicalActF ==");
         controller.viewSearchCcam.pauseOn();
         controller.viewMedicalAct.backResultAnchorSet(resultAnchor);
         controller.viewMedicalAct.resultsContentLoading(medicalActCode);
@@ -321,15 +320,12 @@ class Controller {
         controller.viewMedicalAct.phaseCodeSet("");
         controller.viewMedicalAct.domCodeSet(0);
         controller.viewMedicalActUpdate2(controller, medicalActCode, null, null, null, null, null);
-        console.log("== End of viewMedicalActF ==");
     }
     
     // [1/4] Mise à jour des données (notes, tarif...) d'un acte médical.
     viewMedicalActUpdate(controller) {
         var selectionResults = controller.viewMedicalAct.selectionGet();
         controller.viewMedicalAct.gridCodeSet(selectionResults["medicalActGridCode"]);
-        console.log("selectionResults[\"medicalActActiviteCode\"] : " + selectionResults["medicalActActiviteCode"]);
-        console.log("selectionResults[\"medicalActPhaseCode\"] : " + selectionResults["medicalActPhaseCode"]);
         controller.viewMedicalAct.activiteCodeSet(selectionResults["medicalActActiviteCode"]);
         controller.viewMedicalAct.phaseCodeSet(selectionResults["medicalActPhaseCode"]);
         controller.viewMedicalAct.domCodeSet(selectionResults["medicalActDomCode"]);
@@ -346,65 +342,105 @@ class Controller {
         var urlMedicalAct = dataUrl["urlMedicalAct"];
         
         var htmlResultsReset = false;
-        // Le cinquième paramètre est la fonction callback
-        controller.clientRhapi.serverDataGet(controller, urlStart, urlMedicalAct, htmlResultsReset, controller.viewMedicalActUpdateResults);
+        controller.clientRhapi.serverDataGet(controller, urlStart, urlMedicalAct, htmlResultsReset, controller.medicalActUpdateResults);
+    }
+    
+    medicalActUpdateResults(controller, urlStart, urlComplete, datas, htmlResultsReset) {
+        var medicalActCode = controller.viewMedicalAct.codeGet();
+        controller.medicalActs[medicalActCode].nameLongSet(datas.nomLong);
+        controller.medicalActs[medicalActCode].notesSet(datas.notes);
+        controller.medicalActs[medicalActCode].codesActiviteSet(datas.codActivites);
+        controller.medicalActs[medicalActCode].codesPhaseSet(datas.codPhases);
+        controller.viewMedicalActUpdateResults(controller);
     }
     
     // [3/4] Mise à jour des données (notes, tarif...) d'un acte médical.
-    viewMedicalActUpdateResults(controller, urlStart, urlComplete, datas, htmlResultsReset) {
+    viewMedicalActUpdateResults(controller) {
         controller.viewMedicalAct.resultsContentLoaded();
         controller.viewMedicalAct.resumeOn();
         var medicalActCode = controller.viewMedicalAct.codeGet();
+        var nameLong = controller.medicalActs[medicalActCode].nameLongGet();
+        var notes = controller.medicalActs[medicalActCode].notesGet();
+        var codesActivite = controller.medicalActs[medicalActCode].codesActiviteGet();
+        var codesPhase = controller.medicalActs[medicalActCode].codesPhaseGet();
         var medicalActGridCode = controller.viewMedicalAct.gridCodeGet();
         var medicalActActiviteCode = controller.viewMedicalAct.activiteCodeGet();
         var medicalActPhaseCode = controller.viewMedicalAct.phaseCodeGet();
         var medicalActDomCode = controller.viewMedicalAct.domCodeGet();
         var medicalActModificatorsCodes = controller.viewMedicalAct.modificatorsCodesGet();
         
-        controller.viewMedicalAct.subtitleSet(datas.nomLong);
+        controller.viewMedicalAct.subtitleSet(nameLong);
         controller.viewMedicalAct.notesReset();
-        f = 0;
-        datas.notes.forEach(function(object){
+        var f = 0;
+        notes.forEach(function(object){
             controller.medicalActs[medicalActCode].notesSet(object.texteNote);
             controller.viewMedicalAct.notesSet(controller.medicalActs, medicalActCode, f);
             f++;
         });
         
-        var option, f = 0;
+        var option;
+        f = 0;
         var dateSelected;
         var serverDataContext = controller.clientRhapi.serverDataContextGet();
         serverDataContext.tb23.forEach(function(object){
             dateSelected = controller.viewMedicalAct.inputSearchDateConvert(controller.viewSearchCcam.inputSearchDateGet());
-            controller.viewMedicalAct.conventionPsCreate(medicalActGridCode, controller.clientRhapi.CONVENTION_PS_SECTORS_DATE_Get(), datas, object, dateSelected, f);
+            controller.viewMedicalAct.conventionPsCreate(medicalActGridCode, controller.clientRhapi.CONVENTION_PS_SECTORS_DATE_Get(), object, dateSelected, f);
             f++;
         });
         
+        controller.medicalActs[medicalActCode].codesActiviteSet(new Array());
         controller.viewMedicalAct.activiteReset();
-        console.log("controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get() : " + controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get());
-        controller.viewMedicalAct.activiteCreate(datas, medicalActActiviteCode, 0, controller.viewMedicalAct.ACTIVITE_LABEL_DEFAULT_Get(), 0);
         f = 1;
         serverDataContext.activite.forEach(function(object){
-            controller.viewMedicalAct.activiteCreate(datas, medicalActActiviteCode, object.codActiv, object.libelle, f);
-            f++;
+            var codeFound = false;
+            codesActivite.forEach(function (object2) {
+                if (object2 == object.codActiv) {
+                    codeFound = true;
+                }
+            });
+            if (object.codActiv == 0) {
+                codeFound = true;
+            }
+            if (codeFound == true) {
+                controller.medicalActs[medicalActCode].codesActiviteAdd(object.codActiv);
+                controller.viewMedicalAct.activiteCreate(medicalActActiviteCode, object.codActiv, object.libelle, f);
+                f++;
+            }
         });
         
+        controller.medicalActs[medicalActCode].codesPhaseSet(new Array());
         controller.viewMedicalAct.phaseReset();
-        //controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, 0, controller.viewMedicalAct.PHASE_LABEL_DEFAULT_Get(), 0);
-        //controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, 0, null, 0);
         
         // Création du libellé par défaut grâce au booléen
         f = 1;
-        var labelFirst = true;
         serverDataContext.phase.forEach(function(object){
-            controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, object.codPhase, object.libelle, f, labelFirst);
-            f++;
+            var codeFound = true;
+            if (object.codPhase != 0) {
+                codeFound = false;
+            }
+            if (codeFound == true) {
+                controller.medicalActs[medicalActCode].codesPhaseAdd(object.codPhase);
+                controller.viewMedicalAct.phaseCreate(medicalActPhaseCode, object.codPhase, object.libelle, f);
+                f++;
+            }
         });
         // Ensuite création du reste de la liste déroulante.
         f = 1;
-        labelFirst = false;
         serverDataContext.phase.forEach(function(object){
-            controller.viewMedicalAct.phaseCreate(datas, medicalActPhaseCode, object.codPhase, object.libelle, f, labelFirst);
-            f++;
+            var codeFound = false;
+            codesPhase.forEach(function (object2) {
+                if (object2 == object.codPhase) {
+                    codeFound = true;
+                }
+            });
+            if (object.codPhase == 0) {
+                codeFound = false;
+            }
+            if (codeFound == true) {
+                controller.medicalActs[medicalActCode].codesPhaseAdd(object.codPhase);
+                controller.viewMedicalAct.phaseCreate(medicalActPhaseCode, object.codPhase, object.libelle, f);
+                f++;
+            }
         });
         
         controller.viewMedicalAct.domReset();
@@ -423,18 +459,45 @@ class Controller {
             f++;
         });
         controller.viewMedicalAct.modificatorsCodesIndexSet(f);
-        var inputVal = controller.viewSearchCcam.inputSearchKeywordGet();
         var htmlResultsReset = true;
-        console.log("medicalActActiviteCode : " + medicalActActiviteCode);
-        console.log("medicalActPhaseCode : " + medicalActPhaseCode);
+        
+        controller.viewMedicalActUpdatePrice(controller);
+    }
+    
+    viewMedicalActUpdatePrice(controller) {
+        var inputVal = controller.viewSearchCcam.inputSearchKeywordGet();
+        var medicalActCode = controller.viewMedicalAct.codeGet();
+        var nameLong = controller.medicalActs[medicalActCode].nameLongGet();
+        var medicalActGridCode = controller.viewMedicalAct.gridCodeGet();
+        var medicalActActiviteCode = controller.viewMedicalAct.activiteCodeGet();
+        var medicalActPhaseCode = controller.viewMedicalAct.phaseCodeGet();
+        var medicalActDomCode = controller.viewMedicalAct.domCodeGet();
+        var medicalActModificatorsCodes = controller.viewMedicalAct.modificatorsCodesGet();
+        
+        if (medicalActActiviteCode == "") {
+            medicalActActiviteCode = controller.medicalActs[medicalActCode].codesActiviteGet()[0];
+        }
+        
+        if (medicalActPhaseCode == "") {
+            medicalActPhaseCode = controller.medicalActs[medicalActCode].codesPhaseGet()[0];
+        }
+        
         var dataUrl = controller.clientRhapi.serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorsCodes);
-        controller.clientRhapi.serverDataGet(controller, dataUrl["urlStart"], dataUrl["urlPrice"], htmlResultsReset, controller.viewMedicalActUpdatePrice);
+        controller.clientRhapi.serverDataGet(controller, dataUrl["urlStart"], dataUrl["urlPrice"], true, controller.medicalActUpdatePriceResults);
+    }
+    
+    medicalActUpdatePriceResults(controller, urlStart, urlComplete, datas, htmlResultsReset) {
+        var medicalActCode = controller.viewMedicalAct.codeGet();
+        controller.medicalActs[medicalActCode].priceSet(datas.pu);
+        controller.viewMedicalActUpdatePriceResults(controller);
     }
     
     // [4/4] Mise à jour des données (notes, tarif...) d'un acte médical.
-    viewMedicalActUpdatePrice (controller, urlStart, urlComplete, datas, htmlResultsReset) {
+    viewMedicalActUpdatePriceResults(controller) {
+        var medicalActCode = controller.viewMedicalAct.codeGet();
+        var price = controller.medicalActs[medicalActCode].priceGet();
+        controller.viewMedicalAct.priceSet(price);
         controller.viewMedicalAct.priceLoaded();
-        controller.viewMedicalAct.priceSet(datas.pu);
     }
 }
 

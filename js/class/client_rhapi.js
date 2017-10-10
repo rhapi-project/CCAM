@@ -45,10 +45,6 @@ class ClientRhapi {
     
     // Méthode qui créé les liens externes de l'application.
     serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorCode) {
-        console.log("== serverDataUrlPrepare ==");
-        console.log("medicalActCode : " + medicalActCode);
-        console.log("medicalActActiviteCode : " + medicalActActiviteCode);
-        console.log("medicalActPhaseCode : " + medicalActPhaseCode);
         medicalActActiviteCode = (medicalActActiviteCode != null)?medicalActActiviteCode:"";
         medicalActPhaseCode = (medicalActPhaseCode != null)?medicalActPhaseCode:"";
         var urlStart = "https://demo.rhapi.net/demo01";
@@ -69,8 +65,6 @@ class ClientRhapi {
         } else {
             var inputValLength = 0;
         }
-        console.log("urlMedicalAct : " + urlMedicalAct);
-        console.log("urlPrice : " + urlPrice);
         var result = [];
         result["inputVal"] = inputVal;
         result["inputValLength"] = inputValLength;
@@ -79,7 +73,6 @@ class ClientRhapi {
         result["urlMedicalAct"] = urlMedicalAct;
         result["urlContext"] = urlContext;
         result["urlPrice"] = urlPrice;
-        console.log("== End of serverDataUrlPrepare ==");
         return result;
     }
 }

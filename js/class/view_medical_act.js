@@ -101,7 +101,7 @@ class ViewMedicalAct{
     }
     
     // Création des options du champ de sélection des conventions PS.
-    conventionPsCreate (medicalActGridCode, CONVENTION_PS_SECTORS_DATE, datas, object, objectDate, f) {
+    conventionPsCreate (medicalActGridCode, CONVENTION_PS_SECTORS_DATE, object, objectDate, f) {
         var option = document.createElement("option");
         option.setAttribute("id", "option-conventions-ps-" + f);
         option.setAttribute("value", object.codGrille);
@@ -120,25 +120,14 @@ class ViewMedicalAct{
     }
     
     // Création des options du champ de sélection de l'activité.
-    activiteCreate (datas, medicalActiviteCode, codeActivite, libelle, f) {
-        var codeFound = false;
-        datas.codActivites.forEach(function (object) {
-            if (object == codeActivite) {
-                codeFound = true;
-            }
-        });
-        if (codeActivite == 0) {
-            codeFound = true;
-        }
-        if (codeFound == true) {
-            var option = document.createElement("option");
-            option.setAttribute("id", "option-activite-" + f);
-            option.setAttribute("value", codeActivite);
-            $("#medical-act-activite").append(option);
-            $("#option-activite-" + f).append(document.createTextNode(libelle));
-            if (medicalActiviteCode == codeActivite) {
-                $("#medical-act-activite").val(codeActivite);
-            }
+    activiteCreate (medicalActiviteCode, codeActivite, libelle, f) {
+        var option = document.createElement("option");
+        option.setAttribute("id", "option-activite-" + f);
+        option.setAttribute("value", codeActivite);
+        $("#medical-act-activite").append(option);
+        $("#option-activite-" + f).append(document.createTextNode(libelle));
+        if (medicalActiviteCode == codeActivite) {
+            $("#medical-act-activite").val(codeActivite);
         }
     }
     
@@ -146,26 +135,15 @@ class ViewMedicalAct{
         $("#medical-act-phase").html("");
     }
     
-    // Création des options du champ de sélection de l'activité.
-    phaseCreate (datas, medicalPhaseCode, codePhase, libelle, f, labelFirst) {
-        var codeFound = false;
-        datas.codPhases.forEach(function (object) {
-            if (object == codePhase) {
-                codeFound = true;
-            }
-        });
-        if (codePhase == 0 && labelFirst == false) {
-            codeFound = false;
-        }
-        if (codeFound == true) {
-            var option = document.createElement("option");
-            option.setAttribute("id", "option-phase-" + f);
-            option.setAttribute("value", codePhase);
-            $("#medical-act-phase").append(option);
-            $("#option-phase-" + f).append(document.createTextNode(libelle));
-            if (medicalPhaseCode == codePhase) {
-                $("#medical-act-phase").val(codePhase);
-            }
+    // Création des options du champ de sélection de la phase.
+    phaseCreate (medicalPhaseCode, codePhase, libelle, f) {
+        var option = document.createElement("option");
+        option.setAttribute("id", "option-phase-" + f);
+        option.setAttribute("value", codePhase);
+        $("#medical-act-phase").append(option);
+        $("#option-phase-" + f).append(document.createTextNode(libelle));
+        if (medicalPhaseCode == codePhase) {
+            $("#medical-act-phase").val(codePhase);
         }
     }
     
