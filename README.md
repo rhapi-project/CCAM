@@ -3,7 +3,7 @@ Recherche dans la Classification Commune des Actes Médicaux
 
 ## Pour tester
 - Télécharger l'archive, l'ouvrir et cliquer sur index.html.
-- Aller sur le site [CCAM en ligne](https://download.oremia.com/CCAM?texte=trijumeau).
+- Aller sur le site démonstration [CCAM en ligne](https://rhapi-project.github.io/CCAM?texte=trijumeau).
 
 ## Présentation rapide
 **RHAPI** est une API RESTful qui s'inscrit totalement dans l'émergence actuelle d'applications Web *full Front-End*, écrites uniquement en JavaScript.
