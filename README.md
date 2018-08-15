@@ -1,6 +1,9 @@
 # CCAM
 Recherche dans la Classification Commune des Actes Médicaux
 
+La CCAM est une fonctionnalité du projet RHAPI.
+Support et hébergergement RHAPI auprès de [Lambdasoft](https://lambdasoft.fr).
+
 ## Pour tester
 - Télécharger l'archive, l'ouvrir et cliquer sur index.html.
 - Aller sur le site démonstration [CCAM en ligne](https://rhapi-project.github.io/CCAM?texte=trijumeau).
