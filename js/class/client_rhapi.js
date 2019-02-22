@@ -1,3 +1,9 @@
+const baseUrl = "https://demo.rhapi.net/demo01";
+
+// Instanciation d'un client sans authentification
+var Client = require("rhapi-client").Client;
+var client = new Client(baseUrl);
+
 class ClientRhapi {
     constructor () {
         this.CONVENTION_PS_SECTORS_DATE = "2015-01-01";
@@ -28,51 +34,85 @@ class ClientRhapi {
     serverDataContextSet(valNew) {
         this.serverDataContext = valNew;
     }
-    
-    // Récupération de données au format json
-    serverDataGet(controller, urlStart, url, htmlResultsReset, callback) {
-        $.ajax({
-            url: url,
-            method: "GET",
-            dataType: "json",
-            crossDomain: true,
-            success: function (dataRequest) {
-                var datas = dataRequest;
-                callback(controller, urlStart, url, datas, htmlResultsReset);
+
+    loadContext(controller, callback) {
+        // callback : fonction qui sera exécutée lors de l'appel à loadContext (traitement du résultat)
+        client.CCAM.contextes(
+            function (result) {
+                //console.log(result);
+                callback(controller, result);
+            },
+            function (error) {
+                console.log(error);
             }
-        });
+        )
+    }
+
+    loadActes(controller, texte, htmlResultsReset, callback) {
+        var options = {
+            texte: texte  
+        };
+        client.CCAM.readAll(
+            options,
+            function(result) {
+                //console.log(result);
+                callback(controller, baseUrl, result, htmlResultsReset);
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
+    }
+
+    loadMoreActes(controller, texte, offset, htmlResultsReset, callback) {
+        var options = {
+            texte: texte,
+            offset: offset  
+        };
+        client.CCAM.readAll(
+            options,
+            function(result) {
+                //console.log(result);
+                callback(controller, baseUrl, result, htmlResultsReset);
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
+    }
+
+    loadActeWithCode(controller, code, htmlResultsReset, callback) {
+        client.CCAM.read(
+            code,
+            {},
+            function(result) {
+                //console.log(result);
+                callback(controller, result, htmlResultsReset);
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
     }
     
-    // Méthode qui créé les liens externes de l'application.
-    serverDataUrlPrepare(inputVal, medicalActCode, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorCode) {
-        medicalActActiviteCode = (medicalActActiviteCode != null)?medicalActActiviteCode:"";
-        medicalActPhaseCode = (medicalActPhaseCode != null)?medicalActPhaseCode:"";
-        var urlStart = "https://demo.rhapi.net/demo01";
-        var urlKeyword = urlStart + "/CCAM/?texte=" + inputVal;
-        var urlMedicalAct = urlStart + "/CCAM/" + medicalActCode;
-        //var urlMedicalActActivitePhaseCodes = ;
-        //var urlMedicalAct = urlMedicalActStart;
-        
-        //if (medicalActActiviteCode != null && medicalActPhaseCode != null) {
-        //    urlMedicalAct += "?;
-        //}
-        
-        var urlContext = urlStart + "/CCAM/contextes";
-        var urlPrice = urlMedicalAct + "/tarif?grille=" + medicalActGridCode + "&activite=" + medicalActActiviteCode + "&phase=" + medicalActPhaseCode + "&dom=" + medicalActDomCode + "&modificateurs=" + medicalActModificatorCode;
-        
-        if (inputVal != null) {
-            var inputValLength = inputVal.length;
-        } else {
-            var inputValLength = 0;
+    loadTarif(controller, code, medicalActActiviteCode, medicalActPhaseCode, medicalActGridCode, medicalActDomCode, medicalActModificatorCode, /*htmlResultsReset,*/ callback) {
+        var params = {
+            grille: medicalActGridCode,
+            activite: medicalActActiviteCode,
+            phase: medicalActPhaseCode,
+            dom: medicalActDomCode,
+            modificateurs: medicalActModificatorCode
         }
-        var result = [];
-        result["inputVal"] = inputVal;
-        result["inputValLength"] = inputValLength;
-        result["urlStart"] = urlStart;
-        result["urlKeyword"] = urlKeyword;
-        result["urlMedicalAct"] = urlMedicalAct;
-        result["urlContext"] = urlContext;
-        result["urlPrice"] = urlPrice;
-        return result;
+        client.CCAM.tarif(
+            code,
+            params,
+            function (result) {
+                //console.log(result);
+                callback(controller, result)
+            },
+            function (error) {
+                console.log(error);
+            }
+        )
     }
 }
