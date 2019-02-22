@@ -14,7 +14,7 @@ Support et hébergement RHAPI auprès de [Lambdasoft](https://lambdasoft.fr).
 
 **RHAPI** fournit l'ensemble de l'architecture *Back-End* ainsi que les logiques *Métiers*, pour des applications à destination des professionels de santé dont il ne restera qu'à développer l'interface utilisateur.
 
-Les requêtes se font depuis *client_rhapi.js* via le client RHAPI *rhapi-client*, utilisé ici dans une version *lib/rhapi-client-browser.js* importée directement depuis *index.html*.
+Les requêtes se font depuis *client_rhapi.js* via [le client RHAPI rhapi-client](https://github.com/rhapi-project/rhapi-client), utilisé ici dans une version *lib/rhapi-client-browser.js* importée directement depuis *index.html*.
 Le résultat (un objet JSON) est traité par *controller_rhapi.js* via des méthodes en callback.
 
 ## Module CCAM RHAPI
